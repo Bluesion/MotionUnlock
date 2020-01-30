@@ -7,7 +7,7 @@
 #include <efl_extension.h>
 #include <dlog.h>
 
-#define TAG "HelloAccessoryProvider"
+#define TAG "SensorUnlock"
 
 #define NUM_OF_ITEMS 5
 
@@ -15,7 +15,7 @@ void initialize_sap();
 void update_ui(char *data);
 
 #if !defined(PACKAGE)
-#define PACKAGE "org.tizen.helloaccessoryprovider"
+#define PACKAGE "com.gpillusion.sensorunlock"
 #endif
 
 #endif

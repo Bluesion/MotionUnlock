@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<manifest xmlns="http://tizen.org/ns/packages" api-version="5.5" package="org.example.hrmsensorapp" version="1.0.0">
+<manifest xmlns="http://tizen.org/ns/packages" api-version="2.3.1" package="com.gpillusion.sensorunlock" version="1.0.0">
     <profile name="wearable"/>
-    <ui-application appid="org.example.hrmsensorapp" exec="hrmsensorapp" multiple="false" nodisplay="false" taskmanage="true" type="capp">
-        <label>hrmsensorapp</label>
-        <icon>basicui2.png</icon>
+    <ui-application appid="com.gpillusion.sensorunlock" exec="sensorunlock" multiple="false" nodisplay="false" taskmanage="true" type="capp">
+        <label>SensorUnlock</label>
+        <icon>app_icon.png</icon>
         <metadata key="accessory-services-location" value="/res/xml/accessoryservices.xml"/>
     </ui-application>
     <privileges>

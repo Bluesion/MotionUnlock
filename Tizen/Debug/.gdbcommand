@@ -1,5 +1,0 @@
-set sysroot C:/TizenSDK/platforms/tizen-2.3.1/wearable/rootstraps/wearable-2.3.1-device.core
-set debug-file-directory C:/TizenSDK/platforms/tizen-2.3.1/wearable/rootstraps/wearable-2.3.1-device.core/usr/lib/debug
-set solib-search-path C:/Users/Illusion/Desktop/Development/TizenStudio/Hrmsensorapp/Debug
-dir C:/TizenSDK/platforms/tizen-2.3.1/wearable/rootstraps/wearable-2.3.1-device.core/usr/src/debug
-sharedlibrary

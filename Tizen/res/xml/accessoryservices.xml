@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<application name="org.tizen.helloaccessoryprovider">
-		<serviceProfile id="/sample/hello" name="HelloAccessoryProvider"
-			autoLaunchAppId="org.tizen.helloaccessoryprovider" role="provider"
+	<application name="com.gpillusion.sensorunlock">
+		<serviceProfile id="SensorUnlock" name="Sensor Unlock"
+			autoLaunchAppId="com.gpillusion.sensorunlock" role="provider"
 			version="1.0">
 			<supportedTransports>
 				<transport type="TRANSPORT_BT" />

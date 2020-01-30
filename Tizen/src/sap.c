@@ -4,10 +4,17 @@
 #include "helloaccessory.h"
 #include "main_app.h"
 
-#define HELLO_ACC_ASPID "/sample/hello"
+#define HELLO_ACC_ASPID "SensorUnlock"
 #define HELLO_ACC_CHANNELID 104
 
-extern float BPM;
+extern float HRM;
+extern float ACC_X;
+extern float ACC_Y;
+extern float ACC_Z;
+extern float GYR_X;
+extern float GYR_Y;
+extern float GYR_Z;
+extern float PRS;
 
 struct priv {
 	sap_agent_h agent;
@@ -45,21 +52,58 @@ static void on_service_connection_terminated(sap_peer_agent_h peer_agent,
 }
 
 
-static void on_data_recieved(sap_socket_h socket,
-			     unsigned short int channel_id,
-			     unsigned int payload_length,
-			     void *buffer,
-			     void *user_data)
-{
-	dlog_print(DLOG_INFO, TAG, "received data: %s, len:%d", buffer, payload_length);
+static void on_data_recieved(sap_socket_h socket, unsigned short int channel_id, unsigned int payload_length, void *buffer, void *user_data) {
+	char a[100] = "";
 
-	char* msg = (char *) malloc(sizeof(BPM));
-	sprintf(msg, "%f", BPM);
-	payload_length = strlen(msg);
+	char* hrm_msg = (char *) malloc(sizeof(HRM));
+	sprintf(hrm_msg, "%.1f", HRM);
 
-	dlog_print(DLOG_INFO, LOG_TAG, "BPM: %f, send data: %s", BPM, msg);
-	sap_socket_send_data(priv_data.socket, HELLO_ACC_CHANNELID, payload_length, msg);
-	free(msg);
+	char* acc_msg_x = (char * ) malloc(sizeof(ACC_X));
+	char* acc_msg_y = (char * ) malloc(sizeof(ACC_Y));
+	char* acc_msg_z = (char * ) malloc(sizeof(ACC_Z));
+	sprintf(acc_msg_x, "%.1f", ACC_X);
+	sprintf(acc_msg_y, "%.1f", ACC_Y);
+	sprintf(acc_msg_z, "%.1f", ACC_Z);
+
+	char* gyr_msg_x = (char * ) malloc(sizeof(GYR_X));
+	char* gyr_msg_y = (char * ) malloc(sizeof(GYR_Y));
+	char* gyr_msg_z = (char * ) malloc(sizeof(GYR_Z));
+	sprintf(gyr_msg_x, "%.1f", GYR_X);
+	sprintf(gyr_msg_y, "%.1f", GYR_Y);
+	sprintf(gyr_msg_z, "%.1f", GYR_Z);
+
+	char* prs_msg = (char * ) malloc(sizeof(PRS));
+	sprintf(prs_msg, "%.1f", PRS);
+
+	// 심박수%x,y,z(가속도)%x,y,z(자이로)%압력
+	strcat(a, hrm_msg);
+	strcat(a, "%(");
+	strcat(a, acc_msg_x);
+	strcat(a, ", ");
+	strcat(a, acc_msg_y);
+	strcat(a, ", ");
+	strcat(a, acc_msg_z);
+	strcat(a, ")%(");
+	strcat(a, gyr_msg_x);
+	strcat(a, ", ");
+	strcat(a, gyr_msg_y);
+	strcat(a, ", ");
+	strcat(a, gyr_msg_z);
+	strcat(a, ")%");
+	strcat(a, prs_msg);
+
+	payload_length = strlen(a);
+
+	dlog_print(DLOG_INFO, LOG_TAG, "My data: %s", a);
+	sap_socket_send_data(priv_data.socket, HELLO_ACC_CHANNELID, payload_length, a);
+	free(hrm_msg);
+	free(acc_msg_x);
+	free(acc_msg_y);
+	free(acc_msg_z);
+	free(gyr_msg_x);
+	free(gyr_msg_y);
+	free(gyr_msg_z);
+	free(prs_msg);
 }
 
 static void on_service_connection_requested(sap_peer_agent_h peer_agent,

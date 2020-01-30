@@ -38,7 +38,7 @@ void _create_new_cd_display(appdata_s *ad, char *name, void *cb);
 Eina_Bool _pop_cb(void *data, Elm_Object_Item *item);
 
 #ifndef PACKAGE
-#define PACKAGE "org.example.sensor"
+#define PACKAGE "com.gpillusion.sensorunlock"
 #endif
 
 #ifdef  LOG_TAG
