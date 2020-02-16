@@ -20,24 +20,61 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.gpillusion.sensorunlock
+package com.gpillusion.motionunlock
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
+import android.os.Message
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.samsung.android.sdk.SsdkUnsupportedException
-import com.samsung.android.sdk.accessory.*
+import com.samsung.android.sdk.accessory.SA
+import com.samsung.android.sdk.accessory.SAAgent
+import com.samsung.android.sdk.accessory.SAPeerAgent
+import com.samsung.android.sdk.accessory.SASocket
 import java.io.IOException
 
 class GearService : SAAgent(TAG, SASOCKET_CLASS) {
 
     private val mBinder: IBinder = LocalBinder()
     private var mConnectionHandler: ServiceConnection? = null
-    private var mHandler = Handler()
-
+    private var mHandler: Handler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                // 513은 사용자가 disconnect 했을 때
+                513 -> {
+                    MainActivity.unlockLayout.visibility = View.GONE
+                    MainActivity.registerLayout.visibility = View.GONE
+                    MainActivity.testLayout.visibility = View.GONE
+                    MainActivity.loadingLayout.visibility = View.GONE
+                    MainActivity.failLayout.visibility = View.GONE
+                    MainActivity.disconnectedLayout.visibility = View.VISIBLE
+                }
+                // 521은 블루투스가 끊겼을 때
+                521 -> {
+                    MainActivity.unlockLayout.visibility = View.GONE
+                    MainActivity.registerLayout.visibility = View.GONE
+                    MainActivity.testLayout.visibility = View.GONE
+                    MainActivity.loadingLayout.visibility = View.GONE
+                    MainActivity.failLayout.visibility = View.VISIBLE
+                    MainActivity.disconnectedLayout.visibility = View.GONE
+                }
+                else -> {
+                    MainActivity.unlockLayout.visibility = View.VISIBLE
+                    MainActivity.registerLayout.visibility = View.GONE
+                    MainActivity.testLayout.visibility = View.GONE
+                    MainActivity.loadingLayout.visibility = View.GONE
+                    MainActivity.failLayout.visibility = View.GONE
+                    MainActivity.disconnectedLayout.visibility = View.GONE
+                }
+            }
+        }
+    }
     override fun onCreate() {
         super.onCreate()
         val mAccessory = SA()
@@ -63,16 +100,22 @@ class GearService : SAAgent(TAG, SASOCKET_CLASS) {
     }
 
     override fun onFindPeerAgentsResponse(peerAgents: Array<SAPeerAgent?>?, result: Int) {
+        Thread(Runnable {
+            val message = mHandler.obtainMessage(521)
+            mHandler.sendMessage(message)
+        }).start()
         if (result == PEER_AGENT_FOUND && peerAgents != null) {
             for (peerAgent in peerAgents) {
                 requestServiceConnection(peerAgent)
             }
+            Thread(Runnable {
+                val message = mHandler.obtainMessage(1)
+                mHandler.sendMessage(message)
+            }).start()
         } else if (result == FINDPEER_DEVICE_NOT_CONNECTED) {
             Toast.makeText(applicationContext, "FINDPEER_DEVICE_NOT_CONNECTED", Toast.LENGTH_LONG).show()
-            updateTextView("Disconnected")
         } else if (result == FINDPEER_SERVICE_NOT_FOUND) {
             Toast.makeText(applicationContext, "FINDPEER_SERVICE_NOT_FOUND", Toast.LENGTH_LONG).show()
-            updateTextView("Disconnected")
         } else {
             Toast.makeText(applicationContext, "No peers have been found!!!", Toast.LENGTH_LONG).show()
         }
@@ -90,18 +133,14 @@ class GearService : SAAgent(TAG, SASOCKET_CLASS) {
         when (result) {
             CONNECTION_SUCCESS -> {
                 mConnectionHandler = socket as ServiceConnection?
-                updateTextView("Connected")
             }
             CONNECTION_ALREADY_EXIST -> {
-                updateTextView("Connected")
                 Toast.makeText(baseContext, "CONNECTION_ALREADY_EXIST", Toast.LENGTH_LONG).show()
             }
             CONNECTION_DUPLICATE_REQUEST -> {
-                updateTextView("DUPLICATED")
                 Toast.makeText(baseContext, "CONNECTION_DUPLICATE_REQUEST", Toast.LENGTH_LONG).show()
             }
             else -> {
-                updateTextView("WRONG")
                 Toast.makeText(baseContext, "Service Connection Failure", Toast.LENGTH_LONG).show()
             }
         }
@@ -113,8 +152,21 @@ class GearService : SAAgent(TAG, SASOCKET_CLASS) {
             if (peers != null) {
                 if (result == PEER_AGENT_AVAILABLE) {
                     Toast.makeText(applicationContext, "PEER_AGENT_AVAILABLE", Toast.LENGTH_LONG).show()
+                    // 폰과 기어가 연결 되었지만, 아직 Service가 연결이 안된 경우
+                    MainActivity.unlockLayout.visibility = View.GONE
+                    MainActivity.registerLayout.visibility = View.GONE
+                    MainActivity.testLayout.visibility = View.GONE
+                    MainActivity.loadingLayout.visibility = View.GONE
+                    MainActivity.failLayout.visibility = View.GONE
+                    MainActivity.disconnectedLayout.visibility = View.VISIBLE
                 } else {
                     Toast.makeText(applicationContext, "PEER_AGENT_UNAVAILABLE", Toast.LENGTH_LONG).show()
+                    MainActivity.unlockLayout.visibility = View.GONE
+                    MainActivity.registerLayout.visibility = View.GONE
+                    MainActivity.testLayout.visibility = View.GONE
+                    MainActivity.loadingLayout.visibility = View.GONE
+                    MainActivity.failLayout.visibility = View.VISIBLE
+                    MainActivity.disconnectedLayout.visibility = View.GONE
                 }
             }
         }
@@ -129,7 +181,11 @@ class GearService : SAAgent(TAG, SASOCKET_CLASS) {
         }
 
         override fun onServiceConnectionLost(reason: Int) {
-            updateTextView("Disconnected")
+            Thread(Runnable {
+                val message = mHandler.obtainMessage(reason)
+                mHandler.sendMessage(message)
+            }).start()
+
             closeConnection()
         }
     }
@@ -186,16 +242,15 @@ class GearService : SAAgent(TAG, SASOCKET_CLASS) {
         return true
     }
 
-    private fun updateTextView(str: String) {
-        mHandler.post { MainActivity.setCondition(str) }
-    }
-
     private fun addMessage(data: String) {
-        mHandler.post { MainActivity.addText(data) }
+        mHandler.post {
+            //MainActivity.addText(data)
+            MainActivity.addData(data)
+        }
     }
 
     companion object {
-        private const val TAG = "SensorUnlock"
+        private const val TAG = "MotionUnlock"
         private val SASOCKET_CLASS = ServiceConnection::class.java
     }
 }

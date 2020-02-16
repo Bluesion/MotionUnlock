@@ -107,10 +107,11 @@ void _sensor_start_cb(void *data, Evas_Object *obj, void *event_info)
     sensor_create_listener(sensor2, &listener2);
     sensor_create_listener(sensor3, &listener3);
 
-    sensor_listener_set_event_cb(listener0, 1000, on_sensor_event, user_data);
-    sensor_listener_set_event_cb(listener1, 1000, on_sensor_event, user_data);
-    sensor_listener_set_event_cb(listener2, 1000, on_sensor_event, user_data);
-    sensor_listener_set_event_cb(listener3, 1000, on_sensor_event, user_data);
+    //                                      | 이 숫자가 ms.
+    sensor_listener_set_event_cb(listener0, 20, on_sensor_event, user_data);
+    sensor_listener_set_event_cb(listener1, 20, on_sensor_event, user_data);
+    sensor_listener_set_event_cb(listener2, 20, on_sensor_event, user_data);
+    sensor_listener_set_event_cb(listener3, 20, on_sensor_event, user_data);
 
     sensor_listener_start(listener0);
     sensor_listener_start(listener1);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<application name="com.gpillusion.sensorunlock">
-		<serviceProfile id="SensorUnlock" name="Sensor Unlock"
-			autoLaunchAppId="com.gpillusion.sensorunlock" role="provider"
+	<application name="com.gpillusion.motionunlock">
+		<serviceProfile id="MotionUnlock" name="Motion Unlock"
+			autoLaunchAppId="com.gpillusion.motionunlock" role="provider"
 			version="1.0">
 			<supportedTransports>
 				<transport type="TRANSPORT_BT" />

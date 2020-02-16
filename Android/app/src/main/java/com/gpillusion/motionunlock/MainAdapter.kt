@@ -1,14 +1,16 @@
-package com.gpillusion.sensorunlock
+package com.gpillusion.motionunlock
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
+import com.gpillusion.motionunlock.data.SensorData
 
-class MainAdapter(private var list: ArrayList<Data>): RecyclerView.Adapter<MainAdapter.MyViewHolder>() {
+class MainAdapter(private var list: ArrayList<SensorData>): RecyclerView.Adapter<MainAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var pos: MaterialTextView = view.findViewById(R.id.position)
         var hrm: MaterialTextView = view.findViewById(R.id.hrm_text)
         var acc: MaterialTextView = view.findViewById(R.id.acc_text)
         var gyr: MaterialTextView = view.findViewById(R.id.gyr_text)
@@ -22,6 +24,8 @@ class MainAdapter(private var list: ArrayList<Data>): RecyclerView.Adapter<MainA
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val pos = position + 1
+        holder.pos.text = "#$pos"
         holder.hrm.text = list[position].hrm
         holder.acc.text = list[position].acc
         holder.gyr.text = list[position].gyr
@@ -32,8 +36,8 @@ class MainAdapter(private var list: ArrayList<Data>): RecyclerView.Adapter<MainA
         return list.size
     }
 
-    fun addText(data: Data) {
-        list.add(data)
+    fun addText(sensorData: SensorData) {
+        list.add(sensorData)
         notifyDataSetChanged()
     }
 

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gpillusion.sensorunlock">
+    package="com.gpillusion.motionunlock">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="com.samsung.accessory.permission.ACCESSORY_FRAMEWORK" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
     <uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" />
-    <uses-permission android:name="com.samsung.WATCH_APP_TYPE.Companion"/>
+    <uses-permission android:name="com.samsung.WATCH_APP_TYPE.Companion" />
 
     <application
+        android:name=".MotionUnlock"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SettingsActivity"
+            android:label="@string/settings" />
+        <activity android:name=".AboutActivity"
+            android:label="" />
 
         <service android:name=".GearService" />
 

@@ -4,7 +4,7 @@
 #include "helloaccessory.h"
 #include "main_app.h"
 
-#define HELLO_ACC_ASPID "SensorUnlock"
+#define HELLO_ACC_ASPID "MotionUnlock"
 #define HELLO_ACC_CHANNELID 104
 
 extern float HRM;
@@ -56,24 +56,24 @@ static void on_data_recieved(sap_socket_h socket, unsigned short int channel_id,
 	char a[100] = "";
 
 	char* hrm_msg = (char *) malloc(sizeof(HRM));
-	sprintf(hrm_msg, "%.1f", HRM);
+	sprintf(hrm_msg, "%f", HRM);
 
 	char* acc_msg_x = (char * ) malloc(sizeof(ACC_X));
 	char* acc_msg_y = (char * ) malloc(sizeof(ACC_Y));
 	char* acc_msg_z = (char * ) malloc(sizeof(ACC_Z));
-	sprintf(acc_msg_x, "%.1f", ACC_X);
-	sprintf(acc_msg_y, "%.1f", ACC_Y);
-	sprintf(acc_msg_z, "%.1f", ACC_Z);
+	sprintf(acc_msg_x, "%f", ACC_X);
+	sprintf(acc_msg_y, "%f", ACC_Y);
+	sprintf(acc_msg_z, "%f", ACC_Z);
 
 	char* gyr_msg_x = (char * ) malloc(sizeof(GYR_X));
 	char* gyr_msg_y = (char * ) malloc(sizeof(GYR_Y));
 	char* gyr_msg_z = (char * ) malloc(sizeof(GYR_Z));
-	sprintf(gyr_msg_x, "%.1f", GYR_X);
-	sprintf(gyr_msg_y, "%.1f", GYR_Y);
-	sprintf(gyr_msg_z, "%.1f", GYR_Z);
+	sprintf(gyr_msg_x, "%f", GYR_X);
+	sprintf(gyr_msg_y, "%f", GYR_Y);
+	sprintf(gyr_msg_z, "%f", GYR_Z);
 
 	char* prs_msg = (char * ) malloc(sizeof(PRS));
-	sprintf(prs_msg, "%.1f", PRS);
+	sprintf(prs_msg, "%f", PRS);
 
 	// 심박수%x,y,z(가속도)%x,y,z(자이로)%압력
 	strcat(a, hrm_msg);

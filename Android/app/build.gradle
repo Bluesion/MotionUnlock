@@ -5,7 +5,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.gpillusion.sensorunlock"
+        applicationId "com.gpillusion.motionunlock"
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
@@ -36,8 +36,9 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:1.2.0-alpha01"
+    implementation "androidx.appcompat:appcompat:1.2.0-alpha02"
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+    implementation "androidx.preference:preference:1.1.0"
     implementation "com.google.android.material:material:1.2.0-alpha04"
     implementation files("libs/accessory-v2.5.0.jar")
     implementation files("libs/sdk-v1.0.0.jar")

@@ -1,0 +1,16 @@
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.preference.PreferenceCategory android:title="@string/theme">
+        <androidx.preference.SwitchPreference
+            android:title="@string/dark_theme"
+            android:defaultValue="false"
+            android:key="dark" />
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory android:title="@string/application">
+        <Preference
+            android:title="@string/information"
+            android:key="about" />
+    </androidx.preference.PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

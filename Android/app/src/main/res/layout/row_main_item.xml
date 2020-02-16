@@ -2,7 +2,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/position"
+        style="?textAppearanceBody2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/hrm_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/hrm_title"
@@ -11,9 +25,10 @@
         android:layout_height="wrap_content"
         android:text="심박수"
         android:textStyle="bold"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/acc_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/position" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/acc_title"

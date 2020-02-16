@@ -7,7 +7,7 @@
 #include <efl_extension.h>
 #include <dlog.h>
 
-#define TAG "SensorUnlock"
+#define TAG "MotionUnlock"
 
 #define NUM_OF_ITEMS 5
 
@@ -15,7 +15,7 @@ void initialize_sap();
 void update_ui(char *data);
 
 #if !defined(PACKAGE)
-#define PACKAGE "com.gpillusion.sensorunlock"
+#define PACKAGE "com.gpillusion.motionunlock"
 #endif
 
 #endif
